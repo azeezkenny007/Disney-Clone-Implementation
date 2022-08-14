@@ -7,7 +7,7 @@ import Login from './components/Login'
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
+  Route,Routes,
   Link
 } from "react-router-dom";
 
@@ -16,25 +16,12 @@ function App() {
     <div className="App">
       <Router>
         <Header />
-        <Switch>
-
-          <Route path='/login'>
-                 <Login/>
-          </Route>
-
-           <Route path='/detail'>
-              <Details/>
-           </Route>
-
-           <Route path='/'>
-            <Home />
-           </Route>
-
-        </Switch>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/detail/:id" element={<Details />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
       </Router>
-
-     
-
     </div>
   );
 }

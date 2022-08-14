@@ -1,50 +1,70 @@
 import React from 'react'
 import styled from 'styled-components'
+import {useParams} from 'react-router-dom'
+import { useEffect , useState} from 'react'
+import {doc,getDoc} from 'firebase/firestore' 
+import db  from '../firebase'
+
 
 function Details() {
+
+  const {id}=useParams();
+  console.log(id)
+  const [movie, setMovie] = useState({});
+
+  useEffect(()=>{
+     async function movie(){
+        const docRef = doc(db, "movies", id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+             setMovie(docSnap.data())
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+     }
+     movie()
+  })
+
+  console.log('movie is',movie)
+
+     
   return (
     <Container>
+      <BackGround>
+        <img src={movie.backgroundImg} alt="" />
+      </BackGround>
 
-    <BackGround>
-   <img src="./images/castle.png" alt="" />
-    </BackGround>
+      <ImageTitle>
+        <img src={movie.titleImg} alt="" />
+      </ImageTitle>
 
-    <ImageTitle>
- <img src="./images/dbao.png" alt="" />
-    </ImageTitle>
+      <Controls>
+        <PlayButton>
+<img src={window.location.origin + "/images/play-icon-black.png"} />
+          <span>PLAY</span>
+        </PlayButton>
 
-    <Controls>
+        <TrailerButton>
+          <img src={window.location.origin + "/images/play-icon-white.png"} />
+          <span>Trailer</span>
+        </TrailerButton>
 
-     <PlayButton>
-<img src="./images/play-icon-black.png" alt="" />
-   <span>PLAY</span>
-     </PlayButton>
+        <AddButton>
+          <span>+</span>
+        </AddButton>
 
-     <TrailerButton>
-<img src="./images/play-icon-white.png" alt="" />
-<span>Trailer</span>
-     </TrailerButton>
+        <GroupWatchButton>
+          <img src={window.location.origin + "/images/group-icon.png"} />
+        </GroupWatchButton>
+      </Controls>
 
-     <AddButton>
-      <span>+</span>
-     </AddButton>
+      <SubTitle>{movie.subTitle}</SubTitle>
 
-     <GroupWatchButton>
-<img src="./images/group-icon.png" alt="" />
-     </GroupWatchButton>
-
-    </Controls>
-
-    <SubTitle>
-2018 .7m . Family , Fantasy , Kids ,Animation
-    </SubTitle>
-
-    <Description>
-Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique ut asperiores error dolore sunt quis labore deserunt cumque repellat eveniet corporis dolorem aliquam ratione laborum eaque qui explicabo, ullam facere possimus adipisci, accusantium culpa. Suscipit officia ad dolor ipsum fugit?
-    </Description>
-
-     </Container>
-  )
+      <Description>{movie.description}</Description>
+    </Container>
+  );
 }
 
 export default Details
@@ -63,7 +83,10 @@ const BackGround = styled.div`
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom:0;
+ 
+
+ 
   z-index: -1;
 
   img {
