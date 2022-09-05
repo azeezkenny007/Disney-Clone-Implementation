@@ -27,7 +27,7 @@ function Details() {
      movie()
   })
 
-  console.log('movie is',movie)
+  
 
      
   return (

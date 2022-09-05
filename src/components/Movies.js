@@ -31,11 +31,23 @@ const Container=styled.div`
       
 `
 
-const Content=styled.div`
-     display:grid;
-     grid-gap:25px;
-     grid-template-columns:repeat(4, minmax(0,1fr));
-`
+const Content = styled.div`
+  display: grid;
+  grid-gap: 25px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  @media (min-width: 200px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+`;
 
 const Wrap = styled.div`
   cursor: pointer;
